@@ -314,8 +314,7 @@
       filter:blur(0);
     }
     .parallax{
-      transform:translateY(var(--py,0px));
-      transition:transform .08s linear;
+      transform:translate3d(0,var(--py,0px),0);
       will-change:transform;
     }
     .heroEditorial{
@@ -954,6 +953,25 @@
     .bottomBuy .container > div:first-child{min-width:0;flex:1}
     .bottomBuy strong,.bottomBuy .muted{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .bottomBuy .btn{flex-shrink:0}
+
+    /* ---------- 橘色霓虹 hover（僅滑鼠裝置） ---------- */
+    @media(hover:hover){
+      .lookCard,.cartItem{transition:.3s}
+      .product:hover,.lineCard:hover,.lookCard:hover,.option:hover,.chip:hover,.cartItem:hover{
+        border-color:rgba(232,101,45,.85);
+        box-shadow:
+          0 0 14px rgba(232,101,45,.45),
+          0 0 42px rgba(232,101,45,.22),
+          inset 0 0 14px rgba(232,101,45,.10);
+      }
+      .btn:hover{
+        border-color:rgba(232,101,45,.9);
+        box-shadow:0 0 14px rgba(232,101,45,.5), 0 0 38px rgba(232,101,45,.25);
+      }
+      .btn.orange:hover{
+        box-shadow:0 0 18px rgba(232,101,45,.75), 0 0 56px rgba(232,101,45,.4);
+      }
+    }
     .toast{
       position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:200;
       background:var(--orange);color:#fff;border-radius:999px;padding:13px 20px;box-shadow:var(--shadow);
@@ -1578,12 +1596,21 @@
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const progress = max > 0 ? (window.scrollY / max) * 100 : 0;
       $("progress").style.width = progress + "%";
-      document.querySelectorAll(".parallax").forEach(el=>{
+      const half = window.innerHeight / 2;
+      document.querySelectorAll(".page.active .parallax").forEach(el=>{
         const rect = el.getBoundingClientRect();
         const speed = Number(el.dataset.speed || 0);
-        const offset = (rect.top - window.innerHeight/2) * speed;
-        el.style.setProperty("--py", offset.toFixed(1) + "px");
+        const offset = Math.round((rect.top - half) * speed); // 整數像素，文字不會因次像素位移而閃爍
+        el.style.setProperty("--py", offset + "px");
       });
+    }
+
+    // rAF 節流：每幀最多算一次，捲動再快也不會塞爆主執行緒
+    let scrollTicking = false;
+    function onScroll(){
+      if(scrollTicking) return;
+      scrollTicking = true;
+      requestAnimationFrame(()=>{ updateScrollEffects(); scrollTicking = false; });
     }
 
     function setupReveal(){
@@ -1997,7 +2024,7 @@
     }
 
     window.addEventListener("resize",makeStars);
-    window.addEventListener("scroll",updateScrollEffects,{passive:true});
+    window.addEventListener("scroll",onScroll,{passive:true});
 
     restoreState();
     renderAnnouncementMarquee();
