@@ -2,9 +2,31 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Plus One | Editorial Lookbook Commerce</title>
   <meta name="description" content="Plus One 高端服飾品牌一頁式 Lookbook 敘事電商原型，含星光動畫、真實倒數、商品互動、Style DNA 與購物車。" />
+
+  <!-- ⚠️ 部署後請把下面所有 https://j1770707.github.io/plus-one-preview/ 換成你實際的 GitHub Pages 網址（og 圖片必須是絕對網址才會在 IG/LINE/FB 顯示預覽） -->
+  <link rel="canonical" href="https://j1770707.github.io/plus-one-preview/" />
+  <meta name="theme-color" content="#090908" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Plus One" />
+  <meta property="og:title" content="Plus One | Editorial Lookbook Commerce" />
+  <meta property="og:description" content="高端服飾品牌一頁式 Lookbook 敘事電商。Style DNA 測驗、AI 造型師、限量倒數。" />
+  <meta property="og:url" content="https://j1770707.github.io/plus-one-preview/" />
+  <meta property="og:image" content="https://j1770707.github.io/plus-one-preview/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="zh_TW" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Plus One | Editorial Lookbook Commerce" />
+  <meta name="twitter:description" content="高端服飾品牌一頁式 Lookbook 敘事電商。Style DNA 測驗、AI 造型師、限量倒數。" />
+  <meta name="twitter:image" content="https://j1770707.github.io/plus-one-preview/og-image.jpg" />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
   <style>
     :root{
       --black:#090908;
@@ -901,8 +923,9 @@
     .drawer,.modal{display:none;z-index:100;box-shadow:var(--shadow)}
     .drawerOverlay.show,.modalOverlay.show,.drawer.show,.modal.show{display:block}
     .drawer{
-      position:fixed;right:0;top:0;width:min(460px,100%);height:100vh;overflow:auto;
+      position:fixed;right:0;top:0;width:min(460px,100%);height:100vh;height:100dvh;overflow:auto;
       background:#151411;border-left:1px solid rgba(241,234,216,.2);padding:28px;
+      padding-bottom:calc(28px + env(safe-area-inset-bottom));
     }
     .drawer h2,.modal h2{font-family:var(--serif);font-size:48px;font-style:italic;font-weight:400;color:var(--orange);margin:0 0 20px}
     .close{
@@ -926,7 +949,11 @@
     .bottomBuy{
       position:fixed;left:0;right:0;bottom:0;z-index:70;background:rgba(18,17,15,.88);
       border-top:1px solid rgba(241,234,216,.18);backdrop-filter:blur(16px);padding:12px;display:none;
+      padding-bottom:calc(12px + env(safe-area-inset-bottom));
     }
+    .bottomBuy .container > div:first-child{min-width:0;flex:1}
+    .bottomBuy strong,.bottomBuy .muted{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .bottomBuy .btn{flex-shrink:0}
     .toast{
       position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:200;
       background:var(--orange);color:#fff;border-radius:999px;padding:13px 20px;box-shadow:var(--shadow);
@@ -1055,6 +1082,27 @@
       .sectionHeader h2{font-size:46px}
       .productArt{height:260px}
       .searchRow{flex-direction:column}
+    }
+    /* 窄螢幕手機（iPhone SE 375px、mini 系列） */
+    @media(max-width:430px){
+      :root{--nav-height:78px;}
+      .mark{width:54px;height:54px;border-radius:16px;flex-basis:54px}
+      .brandTitle{font-size:13px}
+      .brandSub{display:none}
+      .container{width:min(100% - 20px,1160px)}
+      .drawer{padding:18px;padding-bottom:calc(18px + env(safe-area-inset-bottom))}
+      .drawer h2,.modal h2{font-size:34px;margin-bottom:14px}
+      .modal{width:calc(100vw - 16px);max-height:86vh;max-height:86dvh;border-radius:22px;padding:18px}
+      .close{width:40px;height:40px}
+      .panel{border-radius:18px}
+      .sectionHeader h2{font-size:38px}
+      .storyText{font-size:20px}
+      .quote{font-size:23px}
+      .productArt{height:220px}
+      .orb{display:none}
+      .btn{padding:13px 18px}
+      .chips{gap:8px}
+      .bottomBuy .btn{padding:12px 16px;font-size:14px}
     }
   </style>
 </head>
